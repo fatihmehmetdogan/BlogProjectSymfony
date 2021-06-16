@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% import "macro/blog.html.twig" as blog_macro %}
+{% block title %}FATİH MEHMET{% endblock %}
+{% block body %}
+<div class="col-md-8">
+    <h1 class="my-4">Deneme <br>
+        <small>En son eklenenler</small>
+    </h1>
+    {% for item in items %}
+        {{ blog_macro.item(item) }}
+    {% endfor %}
+</div>
+{% endblock %}

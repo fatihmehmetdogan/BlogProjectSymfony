@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset("css/styles.css") }}">
+    {# Run `composer require symfony/webpack-encore-bundle`
+           and uncomment the following Encore helpers to start using Symfony UX #}
+    {% block stylesheets %}
+        {# {{ encore_entry_link_tags('app') }} #}
+    {% endblock %}
+
+    {% block javascripts %}
+        <script src="{{ asset("js/scripts.js") }}"></script>
+        {# {{ encore_entry_script_tags('app') }} #}
+    {% endblock %}
+</head>
+<body>
+<!-- Responsive navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="{{ path('blog')}}">BLOG</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+                    class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="{{ path('blog') }}">Blog</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <!-- Page header with logo and tagline-->
+        <header class="py-5 bg-light border-bottom mb-4">
+            <div class="text-center my-5">
+                <h1 class="fw-bolder">Welcome to Blog Home!</h1>
+            </div>
+        </header>
+        {% block body %}{% endblock %}
+        {% include "blog/sidebar.html.twig" %}
+        <!-- Page content-->
+    </div>
+</div>
+<!-- Footer-->
+<footer class="py-5 bg-dark col-md-12">
+    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Merhaba 2021</p></div>
+</footer>
+</body>
+</html>

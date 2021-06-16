@@ -1,0 +1,15 @@
+{% macro item(blog) %}
+        <div class="col-lg-12">
+            <!-- Featured blog post-->
+            <div class="card mb-4">
+                <a href="#!"><img class="card-img-top" src="{{ absolute_url(asset('uploads/' ~ blog.image)) }}" alt="..."/></a>
+                <div class="card-body">
+                    <h2 class="card-title">{{ blog.title }}</h2>
+                    <p class="card-text">{{ blog.content[:100] }}</p>
+                    <a class="btn btn-primary" href="{{ path("blog_detail",{slug: blog.slug}) }}">Read more →</a>
+                     <div class="small text-muted">January 1, 2021</div>
+                </div>
+            </div>
+        </div>
+{% endmacro %}
+

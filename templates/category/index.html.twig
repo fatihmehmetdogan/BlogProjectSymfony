@@ -1,0 +1,13 @@
+ <div class="card my-4">
+        <h5 class="card-header">Categories</h5>
+        <div class="card-body">
+            <div class="row">
+                {% for category in categories %}
+                    <a  style="margin-left: 20px" href="{{ path("category_index", {slug: category.slug}) }}">
+                        {{ category.name }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
