@@ -30,14 +30,15 @@
         </div>
     </div>
 </nav>
+<!-- Page header with logo and tagline-->
+<header class="py-5 bg-light border-bottom mb-4">
+    <div class="text-center my-5">
+        <h1 class="fw-bolder">Welcome to Blog Home!</h1>
+    </div>
+</header>
 <div class="container">
     <div class="row">
-        <!-- Page header with logo and tagline-->
-        <header class="py-5 bg-light border-bottom mb-4">
-            <div class="text-center my-5">
-                <h1 class="fw-bolder">Welcome to Blog Home!</h1>
-            </div>
-        </header>
+
         {% block body %}{% endblock %}
         {% include "blog/sidebar.html.twig" %}
         <!-- Page content-->
