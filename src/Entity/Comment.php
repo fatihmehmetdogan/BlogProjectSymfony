@@ -33,6 +33,11 @@ class Comment
      */
     private $blog;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isConfirmed;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +75,18 @@ class Comment
     public function setBlog(?Blog $blog): self
     {
         $this->blog = $blog;
+
+        return $this;
+    }
+
+    public function getIsConfirmed(): ?bool
+    {
+        return $this->isConfirmed;
+    }
+
+    public function setIsConfirmed(bool $isConfirmed): self
+    {
+        $this->isConfirmed = $isConfirmed;
 
         return $this;
     }

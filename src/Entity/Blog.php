@@ -48,7 +48,7 @@ class Blog
     private $categories;
 
     /**
-     * @ORM\Column(name="slug", type="string", length=255)
+     * @ORM\Column(name="slug", type="string", length=255, unique=true)
      * @Gedmo\Slug(fields={"title"})
      */
     private $slug;
