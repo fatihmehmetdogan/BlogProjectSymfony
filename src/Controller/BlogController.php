@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Blog;
 use App\Entity\Comment;
+use App\Repository\BlogRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,11 +19,9 @@ class BlogController extends AbstractController
     /**
      * @Route("/", name="blog")
      */
-    public function index(): Response
+    public function index(BlogRepository $blogRepository, Request $request): Response
     {
-        $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository(Blog::class);
-        $items = $repository->findAll();
+        $items = $blogRepository->findBy(["status" => 1]);
 
         return $this->render('blog/index.html.twig', [
         'items' => $items,

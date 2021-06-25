@@ -28,7 +28,7 @@ class Comment
     private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Blog::class, inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity=Blog::class, inversedBy="comments", cascade={"all"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $blog;
