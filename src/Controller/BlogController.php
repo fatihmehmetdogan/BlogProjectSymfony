@@ -21,7 +21,7 @@ class BlogController extends AbstractController
      */
     public function index(BlogRepository $blogRepository, Request $request): Response
     {
-        $items = $blogRepository->findBy(["status" => 1]);
+        $items = $blogRepository->findBy(["status" => 1], ['created_at' => 'DESC']);
 
         return $this->render('blog/index.html.twig', [
         'items' => $items,
