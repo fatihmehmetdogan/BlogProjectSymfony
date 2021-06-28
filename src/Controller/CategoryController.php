@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Blog;
 use App\Entity\Category;
+use App\Repository\BlogRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -32,8 +34,12 @@ class CategoryController extends AbstractController
         if(!$category){
             throw new NotFoundHttpException();
         }
+        /** @var BlogRepository $blogRepository */
+        $blogRepository = $em->getRepository(Blog::class);
+        $blogs = $blogRepository->findByCategory($category);
         return $this->render('category/category.html.twig',[
             'category'=>$category,
+            'blogs' => $blogs
         ]);
     }
 }

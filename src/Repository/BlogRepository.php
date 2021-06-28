@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Blog;
+use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -35,7 +37,15 @@ class BlogRepository extends ServiceEntityRepository
         ;
     }
 
-
+    public function findByCategory(Category $category)
+    {
+        return $this->createQueryBuilder('b')
+            ->innerJoin('b.categories', 'c')
+            ->where('b.status = 1')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     /*
     public function findOneBySomeField($value): ?Blog
     {

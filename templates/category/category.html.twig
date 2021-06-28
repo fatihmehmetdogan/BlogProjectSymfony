@@ -6,8 +6,9 @@
         <h1 class="my-4">{{ category.name }} <br>
 {#            <small>En son eklenenler</small>#}
         </h1>
-        {% for blog in category.blogs %}
+        {% for blog in blogs %}
             {{ blog_macro.item(blog) }}
         {% endfor %}
+
     </div>
 {% endblock %}
