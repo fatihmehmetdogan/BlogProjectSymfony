@@ -42,6 +42,8 @@ class BlogRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('b')
             ->innerJoin('b.categories', 'c')
             ->where('b.status = 1')
+            ->andWhere('c.id=:category')
+            ->setParameter('category', $category)
             ->getQuery()
             ->getResult()
             ;

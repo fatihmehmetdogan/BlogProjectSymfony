@@ -30,6 +30,7 @@ class CategoryController extends AbstractController
     public function category($slug){
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository((Category::class));
+        /** @var Category $category */
         $category = $repository->findOneBy(['slug'=>$slug]);
         if(!$category){
             throw new NotFoundHttpException();
