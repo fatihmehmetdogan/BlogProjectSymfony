@@ -7,8 +7,9 @@
                     <h2 class="card-title">{{ blog.title }}</h2>
                     <p class="card-text">{{ blog.content[:100] }}</p>
                     <a class="btn btn-primary" href="{{ path("blog_detail",{slug: blog.slug}) }}">Read more →</a>
-                     <div class="small text-muted">January 1, 2021</div>
-                </div>
+
+                    <!-- Date and time-->
+                    <p>Posted on <b>{{ blog.getUpdatedAt()|date('M d, Y')}}</b> at <b>{{ blog.getUpdatedAt()|date('H:i')}} </b></p>                </div>
             </div>
         </div>
 {% endmacro %}
