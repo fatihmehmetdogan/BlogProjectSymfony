@@ -42,7 +42,7 @@ class UserLoginAuthenticator extends AbstractFormLoginAuthenticator implements P
     public function supports(Request $request)
     {
         if ($request->isMethod('POST')) {
-            if ($request->request->get('email') && $request->request->get('password') ) return true;
+            if ($request->request->get('register') == "member") return true;
         }
 
         return false;

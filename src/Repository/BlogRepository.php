@@ -48,15 +48,4 @@ class BlogRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
-    /*
-    public function findOneBySomeField($value): ?Blog
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

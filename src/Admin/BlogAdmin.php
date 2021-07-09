@@ -24,26 +24,6 @@ final class BlogAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
-
-//        // get the current Image instance
-//        $blog = $this->getSubject();
-//
-//        // use $fileFormOptions so we can add other options to the field
-//        $fileFormOptions = ['required' => false];
-//        if ($blog && ($webPath = $blog->getImage())) {
-//            // get the request so the full path to the image can be set
-//            $request = $this->getRequest();
-//            $fullPath = $request->getBasePath().'/'.$webPath;
-//
-//            // add a 'help' option containing the preview's img tag
-//            $fileFormOptions['help'] = '<img src="'.$fullPath.'" class="admin-preview"/>';
-//            $fileFormOptions['help_html'] = true;
-//        }
-
-
-
-
-
         $formMapper
             ->with('Content')
                     ->add('title', TextType::class, array('data_class' => null))
@@ -78,7 +58,6 @@ final class BlogAdmin extends AbstractAdmin
     public function prePersist($object)
     {
         $uploadedImageFile = $this->getForm()->get('image')->getData();
-        $imageFilename="";
         if($uploadedImageFile){
             $extensions = $uploadedImageFile->guessExtension();
             $imageFilename = time().".". $extensions;
@@ -93,14 +72,12 @@ final class BlogAdmin extends AbstractAdmin
         }
         $object->setImage($imageFilename);
     }
-
     /**
      * @param Blog $object
      */
     public function preUpdate($object)
     {
         $uploadedImageFile = $this->getForm()->get('image')->getData();
-        $imageFilename="";
         if($uploadedImageFile){
             $extensions = $uploadedImageFile->guessExtension();
             $imageFilename = time().".". $extensions;
@@ -121,6 +98,5 @@ final class BlogAdmin extends AbstractAdmin
         }
 
     }
-
 
 }

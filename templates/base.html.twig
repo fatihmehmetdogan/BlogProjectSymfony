@@ -25,9 +25,7 @@
 
                 {{ render(controller("App\\Controller\\UserSecurityController::login")) }}
                 <!-- Modal -->
-
-
-
+                {{ render(controller("App\\Controller\\RegistrationController::register")) }}
             </ul>
         </div>
     </div>
@@ -35,7 +33,7 @@
 <!-- Page header with logo and tagline-->
 <header class="py-5 bg-light border-bottom mb-4">
     <div class="text-center my-5">
-        <h1 class="fw-bolder">Welcome to Blog Home!</h1>
+{#        <h1 class="fw-bolder">Welcome to Blog Home!</h1>#}
     </div>
 </header>
 <div class="container">
@@ -58,7 +56,6 @@
 </footer>
 </body>
 </html>
-
 
 {#                            <form action=" {{ path('app_login') }}" method="post">#}
 {#                                <input type="hidden" value="{{ csrf_token("login") }}" name="token">#}

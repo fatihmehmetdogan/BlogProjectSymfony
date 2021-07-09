@@ -1,5 +1,5 @@
 
-{% block title %}Log in!{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
 <form method="post">
@@ -40,14 +40,14 @@
                                 <label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>
                                     <button class="btn btn-lg btn-primary" type="submit">
                                         Sign in
-                                    </button>                            </div>
-{#                            <div id="register-link" class="text-right">#}
-{#                                <a href="#" class="text-info">Register here</a>#}
-{#                            </div>#}
+                                    </button>
+                            <div id="register-link" class="text-right">
+                                <a href="{{ path('register') }}" class="text-info">Register here</a>
+                            </div>
 
                             <input type="hidden" name="_csrf_token"
-                                   value="{{ csrf_token('authenticate') }}"
-                            >
+                                   value="{{ csrf_token('authenticate') }}">
+                            </div>
                         </form>
                     </div>
                 </div>
