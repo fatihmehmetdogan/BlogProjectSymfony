@@ -23,7 +23,6 @@ class AuthService
         $this->em = $entityManager;
         $this->passwordEncoder = $passwordEncoder;
     }
-
     /**
      * @param $registerInfo
      */
@@ -40,18 +39,13 @@ class AuthService
         {
           echo 'Girdiğiniz parola uyuşmuyor';
         }
-        $user->setPassword($this->passwordEncoder->encodePassword($user, 'engage'));
+        $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
         try {
             $this->em->persist($user);
             $this->em->flush();
         }catch (ORMException $e){
             echo  $e->getMessage();exit();
         }
-
-
     }
-
-
-
 
 }

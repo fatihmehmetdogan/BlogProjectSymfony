@@ -3,9 +3,14 @@
 namespace App\Controller;
 
 use App\Service\AuthService;
+use App\Validation\AdminRegisterValidator;
+use MongoDB\Driver\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -26,15 +31,20 @@ class SecurityController extends AbstractController
     /**
      * @Route("/admin/register", name="register")
      */
-    public function register(Request $request, AuthService $authService): Response
+    public function register(Request $request, AuthService $authService, SessionInterface $session): Response
     {
-        if($request->getMethod() == Request::METHOD_POST) {
-            $a = $request->request->all();
-            $authService->signUp($a);
-
+        if($request->getMethod() !== Request::METHOD_POST) {
+            return $this->render('registration/admin.register.html.twig');
         }
-
-        return $this->render('registration/admin.register.html.twig');
+        $all = $request->request->all();
+        $validator = new AdminRegisterValidator($all);
+        $validator->validateForm();
+        if(!empty($validator->errors)){
+            $this->addFlash("errors", $validator->errors);
+            return $this->redirectToRoute('register');
+        }
+        $authService->signUp($all);
+        return $this->redirectToRoute("app_login");
     }
 
     /**
