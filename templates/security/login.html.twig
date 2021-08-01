@@ -1,9 +1,8 @@
+{#    {% if error %}#}
+{#        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>#}
+{#    {% endif %}#}
 
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-    {% if app.user %}
+    {% if (app.user) and instanceOf(app.user, "App\\Entity\\Member") %}
         <div  style="display:flex; align-items: center;color: white">
             You are logged in as {{ app.user.username }} <a href="{{ path('app_logout') }}" class="btn btn-primary" style="margin-left: 10px">Logout</a>
         </div >
@@ -22,13 +21,31 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="post" class="m-2">
+                <form method="POST" class="m-2" action="/login">
                     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
                     <label for="inputEmail">Email</label>
-                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-                    <label for="inputPassword">Password</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                    <input name="email" id="inputEmail" class="form-control" >
 
+                    {%  set errors = app.flashes('errors') %}
+                    {% for error in errors %}
+                        {% if error.email is defined %}
+                            <div class="alert alert-danger">{{ error.email}}</div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="form-group">
+
+                    <label for="inputPassword">Password</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" >
+                        {%  set errors = app.flashes('errors') %}
+
+                        {% for error in errors %}
+                            {% if error.email is defined %}
+
+                            <div class="alert alert-danger">{{ error.password}}</div>
+                            {% endif %}
+
+                        {% endfor %}
+                    </div>
                         <input type="hidden" name="_csrf_token"
                                value="{{ csrf_token('authenticate') }}"
                         >
@@ -44,7 +61,7 @@
                             </div>
                         #}
 
-                    <button class="btn btn-lg btn-primary mt-2 float-right" type="submit">
+                    <button class="btn btn-lg btn-primary mt-2 float-right" name="login" value="member" type="submit">
                         Sign in
                     </button>
 

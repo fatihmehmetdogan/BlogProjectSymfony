@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Entity\Member;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -24,7 +25,7 @@ class UserLoginAuthenticator extends AbstractFormLoginAuthenticator implements P
 {
     use TargetPathTrait;
 
-    public const LOGIN_ROUTE = 'app_login';
+    public const LOGIN_ROUTE = 'memberLogin';
 
     private $entityManager;
     private $urlGenerator;
@@ -43,6 +44,7 @@ class UserLoginAuthenticator extends AbstractFormLoginAuthenticator implements P
     {
         if ($request->isMethod('POST')) {
             if ($request->request->get('register') == "member") return true;
+            if($request->request->get('login') == "member") return true;
         }
 
         return false;
@@ -70,10 +72,13 @@ class UserLoginAuthenticator extends AbstractFormLoginAuthenticator implements P
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
+        $user = $this->entityManager->getRepository(Member::class)->findOneBy(['email' => $credentials['email']]);
 
         if (!$user) {
+
             throw new UsernameNotFoundException('Email could not be found.');
+            dd("o telefonu götüne sokarım hüso2");
+
         }
 
         return $user;

@@ -26,6 +26,14 @@ services:
         tags: ['controller.service_arguments']
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\EventListener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, priority: 2048 }
+
+#    App\EventListener\RequestListener:
+#        tags:
+#            - { name: kernel.event_listener, event: kernel.request }
+
     admin.blog:
         class: App\Admin\BlogAdmin
         arguments: [ ~, App\Entity\Blog, ~ ]
@@ -41,3 +49,6 @@ services:
         arguments: [ ~, App\Entity\Comment, ~ ]
         tags:
             - { name: sonata.admin, manager_type: orm, label: Comment }
+
+    App\Twig\AppExtension:
+        tags: [ 'twig.extension' ]

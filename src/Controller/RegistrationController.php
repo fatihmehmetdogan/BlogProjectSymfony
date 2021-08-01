@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Member;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
-use App\Security\LoginAuthenticator;
 use App\Security\UserLoginAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,15 +16,19 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 class RegistrationController extends AbstractController
 {
 
+    /**
+     * @Route("/register", name="storefront_register")
+     */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, UserLoginAuthenticator $authenticator): Response
     {
-        $user = new User();
+
+        $user = new Member();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user->setRoles(['ROLE_USER']);
+
+            // encode the plain passworddd
+//            $user->setRoles(['ROLE_USER']);
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,

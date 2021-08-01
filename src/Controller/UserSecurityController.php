@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Service\AuthService;
+use App\Validation\AdminLoginValidator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -10,14 +13,40 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class UserSecurityController extends AbstractController
 {
 
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    /**
+     * @param AuthenticationUtils $authenticationUtils
+     * @return Response
+     * @Route("/login", name="memberLogin")
+     */
+    public function login(AuthenticationUtils $authenticationUtils, Request $request, AuthService $authService): Response
     {
         // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
+//        $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+//        $lastUsername = $authenticationUtils->getLastUsername();
+
+        $all = $request->request->all();
+        $validator = new AdminLoginValidator($all);
+        $validator->validateForLogin();
+        if(!empty($validator->errors)){
+            $this->addFlash("errors", $validator->errors);
+//            return $this->redirectToRoute('memberLogin');
+
+        }
+
+        $request->getSession()->set('_security.last_username', $validator->email);
+        return $this->redirect("/");
     }
+
+    /**
+     * @Route("/member/login", name="memberLoginView", methods={"GET"})
+     * @return Response
+     */
+    public function memberLoginViewAction()
+    {
+        return $this->render('security/login.html.twig');
+    }
+
 
     /**
      * @Route("/logout", name="app_logout")

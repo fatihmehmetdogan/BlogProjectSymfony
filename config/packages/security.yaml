@@ -7,8 +7,14 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
+        member_user_provider:
+            entity:
+                class: App\Entity\Member
+                property: email
     encoders:
         App\Entity\User:
+            algorithm: bcrypt
+        App\Entity\Member:
             algorithm: bcrypt
     firewalls:
         dev:
@@ -19,8 +25,8 @@ security:
             provider: users_in_memory
             guard:
                 authenticators:
-                    - App\Security\LoginAuthenticator
-                    - App\Security\UserLoginAuthenticator
+                      - App\Security\LoginAuthenticator
+                      - App\Security\UserLoginAuthenticator
                 entry_point: App\Security\UserLoginAuthenticator
             logout:
                 path: app_logout
@@ -36,25 +42,10 @@ security:
          - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/admin/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-#         - { path: ^/admin, roles: ROLE_READER }
-#         - { path: ^/admin, roles: ROLE_BLOG_READER }
-         - { path: ^/admin, roles: ROLE_ADMIN }
 
-        # - { path: ^/profile, roles: ROLE_USER }
-#
-#    # config/packages/security.yaml
-#    role_hierarchy:
-#        ROLE_BLOG_READER:
-#            - ROLE_SONATA_ADMIN_BLOG_LIST
-#        ROLE_BLOG_EDITOR:
-#            - ROLE_SONATA_ADMIN_BLOG_EDIT
-#            - ROLE_SONATA_ADMIN_BLOG_DELETE
-#
-#        # those are the roles I will use (less verbose)
-#        ROLE_ADMIN:  [ROLE_BLOG_READER, ROLE_BLOG_EDITOR ]
-#        ROLE_READER: [ROLE_BLOG_READER]
-#        ROLE_EDITOR: [ROLE_BLOG_EDITOR]
-#
-#    # set access_strategy to unanimous, else you may have unexpected behaviors
-#    access_decision_manager:
-#        strategy: unanimous
+         - { path: ^/admin/dashboard, roles: [ROLE_BASIC_ADMIN] }
+         - { path: ^/admin/app/blog, roles: [ROLE_SUPER_ADMIN, ROLE_BLOG_ADMIN] }
+         - { path: ^/admin/app/category, roles: [ROLE_SUPER_ADMIN, ROLE_CATEGORY_ADMIN] }
+         - { path: ^/admin/app/comment, roles: [ROLE_SUPER_ADMIN, ROLE_COMMENT_ADMIN] }
+         - { path: ^/admin$, roles: ROLE_BASIC_ADMIN }
+

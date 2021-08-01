@@ -22,8 +22,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <!-- Button trigger modal -->
+{#                <li><a href="security/login.html.twig">LOGIN</a></li>#}
+{#                <a class="btn btn-primary" href="{{ path('memberLoginView') }}">Login </a>#}
 
-                {{ render(controller("App\\Controller\\UserSecurityController::login")) }}
+                {{ render(controller("App\\Controller\\UserSecurityController::memberLoginViewAction")) }}
                 <!-- Modal -->
                 {{ render(controller("App\\Controller\\RegistrationController::register")) }}
             </ul>

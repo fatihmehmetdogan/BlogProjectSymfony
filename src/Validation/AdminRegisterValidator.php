@@ -8,6 +8,9 @@ class AdminRegisterValidator
 {
     protected $data;
     public $errors = [];
+    public $email;
+    public $password;
+    public $confirmPassword;
     private static $fields = ['email', 'password', 'confirm_password'];
 
     public function __construct($postData)
@@ -29,36 +32,39 @@ class AdminRegisterValidator
     }
     private function validateEmail()
     {
-        $val = trim($this->data['email']);
-        if(empty($val)){
+        $this->email = trim($this->data['email']);
+        if(empty($this->email)){
             $this->addError('email', 'email boş olamaz');
         }else {
-            if(!filter_var($val, FILTER_VALIDATE_EMAIL)){
+            if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)){
                 $this->addError('email', 'Geçerli bir email giriniz');
             }
         }
+        return $this->email;
     }
     private function validatePassword()
     {
-        $pass = trim($this->data['password']);
-        if(empty($pass)){
+        $password = trim($this->data['password']);
+        if(empty($password)){
             $this->addError('password', 'password boş olamaz');
         } else {
-            if(!preg_match('/^[a-zA-Z0-9]{8,12}$/', $pass)){
+            if(!preg_match('/^[a-zA-Z0-9]{8,12}$/', $password)){
                     $this->addError('password', 'En az 8 karakterli bir şifre giriniz');
             }
         }
+        return $this->password;
     }
     private function validateConfirmPassword()
     {
-        $pass = trim($this->data['confirm_password']);
-        if(empty($pass)){
+        $confirmPassword = trim($this->data['confirm_password']);
+        if(empty($confirmPassword)){
             $this->addError('confirm_password', 'password boş olamaz');
         } else {
-            if(!preg_match('/^[a-zA-Z0-9]{8,12}$/', $pass)){
+            if(!preg_match('/^[a-zA-Z0-9]{8,12}$/', $confirmPassword)){
                 $this->addError('confirm_password', 'En az 8 karakterli bir şifre giriniz');
             }
         }
+        return $this->confirmPassword;
     }
 
     /**

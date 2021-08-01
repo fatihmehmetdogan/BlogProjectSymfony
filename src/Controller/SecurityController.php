@@ -3,11 +3,9 @@
 namespace App\Controller;
 
 use App\Service\AuthService;
+use App\Validation\AdminLoginValidator;
 use App\Validation\AdminRegisterValidator;
-use MongoDB\Driver\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -19,14 +17,33 @@ class SecurityController extends AbstractController
     /**
      * @Route("/admin/login", name="app_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, Request $request, AuthService $authService): Response
     {
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
+
+//        // get the login error if there is one
+//        $error = $authenticationUtils->getLastAuthenticationError();
+//        // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/admin.login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        if($request->getMethod() !== Request::METHOD_POST) {
+            return $this->render('security/admin.login.html.twig');
+        }
+        $all = $request->request->all();
+        $validator = new AdminLoginValidator($all);
+        $validator->validateForLogin();
+
+        if(!empty($validator->errors)){
+            $this->addFlash("errors", $validator->errors);
+            return $this->redirectToRoute('app_login');
+
+        }
+
+        $request->getSession()->set('_security.last_username', $validator->email);
+        return $this->redirect("/admin/dashboard");
+
+
+
+//        return $this->render('security/admin.login.html.twig');
     }
     /**
      * @Route("/admin/register", name="register")
@@ -43,7 +60,7 @@ class SecurityController extends AbstractController
             $this->addFlash("errors", $validator->errors);
             return $this->redirectToRoute('register');
         }
-        $authService->signUp($all);
+        $authService->signUp($validator->email, $validator->password, $validator->confirmPassword);
         return $this->redirectToRoute("app_login");
     }
 

@@ -7,6 +7,7 @@ use App\Entity\Comment;
 use App\Repository\BlogRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,10 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class BlogController
+ * @package App\Controller
+ */
 class BlogController extends AbstractController
 {
     /**
@@ -24,7 +29,7 @@ class BlogController extends AbstractController
         $items = $blogRepository->findBy(["status" => 1], ['created_at' => 'DESC']);
 
         return $this->render('blog/index.html.twig', [
-        'items' => $items,
+            'items' => $items,
         ]);
     }
 
