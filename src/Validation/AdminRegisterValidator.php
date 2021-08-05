@@ -44,11 +44,11 @@ class AdminRegisterValidator
     }
     private function validatePassword()
     {
-        $password = trim($this->data['password']);
-        if(empty($password)){
+        $this->password = trim($this->data['password']);
+        if(empty($this->password)){
             $this->addError('password', 'password boş olamaz');
         } else {
-            if(!preg_match('/^[a-zA-Z0-9]{8,12}$/', $password)){
+            if(!preg_match('/^[a-zA-Z0-9]{8,12}$/', $this->password)){
                     $this->addError('password', 'En az 8 karakterli bir şifre giriniz');
             }
         }
@@ -56,11 +56,11 @@ class AdminRegisterValidator
     }
     private function validateConfirmPassword()
     {
-        $confirmPassword = trim($this->data['confirm_password']);
-        if(empty($confirmPassword)){
+        $this->confirmPassword = trim($this->data['confirm_password']);
+        if(empty($this->confirmPassword)){
             $this->addError('confirm_password', 'password boş olamaz');
         } else {
-            if(!preg_match('/^[a-zA-Z0-9]{8,12}$/', $confirmPassword)){
+            if(!preg_match('/^[a-zA-Z0-9]{8,12}$/', $this->confirmPassword)){
                 $this->addError('confirm_password', 'En az 8 karakterli bir şifre giriniz');
             }
         }

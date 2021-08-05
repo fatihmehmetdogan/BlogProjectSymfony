@@ -8,6 +8,7 @@ use App\Entity\Member;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -24,21 +25,25 @@ class AuthService
         $this->em = $entityManager;
         $this->passwordEncoder = $passwordEncoder;
     }
+
     /**
-     * @param $registerInfo
+     * @param $validateEmail
+     * @param $validatePassword
+     * @param $validateConfirm
+     * @throws Exception
      */
-    public function signUp($validatemail, $validatepassword, $validateconfirm)
+    public function signUp($validateEmail, $validatePassword, $validateConfirm)
     {
 //        var_dump($registerInfo);exit();
         $user = new User();
-        $user->setEmail($validatemail);
+        $user->setEmail($validateEmail);
         $user->setRoles(['ROLE_ADMIN']);
-//        var_dump($mail);exit();
-        if($validatepassword !== $validateconfirm)
+//        var_dump($validateEmail);exit();
+        if($validatePassword !== $validateConfirm)
         {
-          echo 'Girdiğiniz parola uyuşmuyor';
+          throw new Exception("Girdiğiniz Parolalar uyuşmuyor");
         }
-        $user->setPassword($this->passwordEncoder->encodePassword($user, $validatepassword));
+        $user->setPassword($this->passwordEncoder->encodePassword($user, $validatePassword));
         try {
             $this->em->persist($user);
             $this->em->flush();

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Service\AuthService;
 use App\Validation\AdminLoginValidator;
 use App\Validation\AdminRegisterValidator;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,7 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils, Request $request, AuthService $authService): Response
     {
+
 //        // get the login error if there is one
 //        $error = $authenticationUtils->getLastAuthenticationError();
 //        // last username entered by the user
@@ -34,9 +36,7 @@ class SecurityController extends AbstractController
         if(!empty($validator->errors)){
             $this->addFlash("errors", $validator->errors);
             return $this->redirectToRoute('app_login');
-
         }
-
         $authService->login($validator->email,$validator->password);
         $request->getSession()->set('_security.last_username', $validator->email);
         return $this->redirect("/admin/dashboard");
@@ -45,8 +45,10 @@ class SecurityController extends AbstractController
 
 //        return $this->render('security/admin.login.html.twig');
     }
+
     /**
      * @Route("/admin/register", name="register")
+     * @throws Exception
      */
     public function register(Request $request, AuthService $authService, SessionInterface $session): Response
     {
