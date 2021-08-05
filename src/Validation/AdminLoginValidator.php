@@ -31,7 +31,7 @@ class AdminLoginValidator
 //        }
 //
 //    }
-        //        var_dump($this->data);exit();
+
         foreach (self::$fields as $field) {
             if (!array_key_exists($field, $this->data)) {
                 $this->addError($field, "$field data yok");

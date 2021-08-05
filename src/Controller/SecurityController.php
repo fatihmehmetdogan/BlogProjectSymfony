@@ -19,7 +19,6 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils, Request $request, AuthService $authService): Response
     {
-
 //        // get the login error if there is one
 //        $error = $authenticationUtils->getLastAuthenticationError();
 //        // last username entered by the user
@@ -38,6 +37,7 @@ class SecurityController extends AbstractController
 
         }
 
+        $authService->login($validator->email,$validator->password);
         $request->getSession()->set('_security.last_username', $validator->email);
         return $this->redirect("/admin/dashboard");
 

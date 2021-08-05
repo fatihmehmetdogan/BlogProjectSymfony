@@ -1,71 +1,92 @@
-{#    {% if error %}#}
-{#        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>#}
-{#    {% endif %}#}
 
-    {% if (app.user) and instanceOf(app.user, "App\\Entity\\Member") %}
-        <div  style="display:flex; align-items: center;color: white">
-            You are logged in as {{ app.user.username }} <a href="{{ path('app_logout') }}" class="btn btn-primary" style="margin-left: 10px">Logout</a>
-        </div >
-     {% else %}
-         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-             Login
-         </button>
-    {% endif %}
+{% block title %}{% endblock %}
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Login</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+{% block body %}
+    <form method="post" action="{{ path('memberLogin') }}">
+        {#    {% if error %}#}
+        {#        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>#}
+        {#    {% endif %}#}
+        {% if (app.user) and instanceOf(app.user, "App\\Entity\\Member") %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
                 </div>
-                <form method="POST" class="m-2" action="/login">
-                    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-                    <label for="inputEmail">Email</label>
-                    <input name="email" id="inputEmail" class="form-control" >
+            {% endif %}
 
-                    {%  set errors = app.flashes('errors') %}
-                    {% for error in errors %}
-                        {% if error.email is defined %}
-                            <div class="alert alert-danger">{{ error.email}}</div>
-                        {% endif %}
-                    {% endfor %}
-                    <div class="form-group">
 
-                    <label for="inputPassword">Password</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control" >
-                        {%  set errors = app.flashes('errors') %}
+        <link rel="stylesheet" href="{{ asset("css/login.css") }}">
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <!------ Include the above in your HEAD tag ---------->
 
-                        {% for error in errors %}
-                            {% if error.email is defined %}
+        <body>
+        <div id="login">
+            <h3 class="text-center text-white pt-5">Login form</h3>
+            <div class="container">
+                <div id="login-row" class="row justify-content-center align-items-center">
+                    <div id="login-column" class="col-md-6">
+                        <div id="login-box" class="col-md-12">
 
-                            <div class="alert alert-danger">{{ error.password}}</div>
-                            {% endif %}
+                            <form id="login-form" class="form" action="" method="post">
+                                <h3 class="text-center text-info">Member Login</h3>
+                                <div class="form-group">
+                                    <label for="inputEmail" class="text-info">Email:</label><br>
+                                    <input  name="email" id="inputEmail" class="form-control">
+                                </div>
+                                {%  set errors = app.flashes('errors') %}
+                                {% for error in errors %}
+                                    {% if error.email is defined %}
+                                        <div class="alert alert-danger">{{ error.email}}</div>
+                                    {% endif %}
+                                {% endfor %}
+                                <div class="form-group">
+                                    <label for="inputPassword" class="text-info">Password:</label><br>
+                                    <input type="password" name="password" id="inputPassword" class="form-control">
+                                    {% for error in errors %}
+                                        <div class="alert alert-danger">{{ error.password}}</div>
+                                    {% endfor %}
+                                </div>
+                                <div class="form-group">
+                                    <label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>
+                                    <button class="btn btn-lg btn-primary" type="submit">
+                                        Sign in
+                                    </button>
+                                    <div id="register-link" class="text-right">
+                                        <a href="{{ path('register') }}" class="text-info">Register here</a>
+                                    </div>
 
-                        {% endfor %}
+                                    <input type="hidden" name="_csrf_token"
+                                           value="{{ csrf_token('authenticate') }}">
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                        <input type="hidden" name="_csrf_token"
-                               value="{{ csrf_token('authenticate') }}"
-                        >
-
-                        {#
-                            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                            See https://symfony.com/doc/current/security/remember_me.html
-
-                            <div class="checkbox mb-3">
-                                <label>
-                                    <input type="checkbox" name="_remember_me"> Remember me
-                                </label>
-                            </div>
-                        #}
-
-                    <button class="btn btn-lg btn-primary mt-2 float-right" name="login" value="member" type="submit">
-                        Sign in
-                    </button>
-
-                </form>
+                </div>
             </div>
         </div>
-    </div>
+        </body>
+
+
+        {#    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>#}
+        {#    <label for="inputEmail">Email</label>#}
+        {#    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>#}
+        {#    <label for="inputPassword">Password</label>#}
+        {#    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>#}
+
+
+        {#
+        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+        See https://symfony.com/doc/current/security/remember_me.html
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Remember me
+            </label>
+        </div>
+        #}
+
+        {#    <button class="btn btn-lg btn-primary" type="submit">#}
+        {#        Sign in#}
+        {#    </button>#}
+    </form>
+{% endblock %}

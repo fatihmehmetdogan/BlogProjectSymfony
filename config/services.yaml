@@ -50,5 +50,4 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: Comment }
 
-    App\Twig\AppExtension:
-        tags: [ 'twig.extension' ]
+

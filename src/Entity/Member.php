@@ -68,6 +68,7 @@ class Member implements UserInterface
         // TODO: Implement getSalt() method.
     }
 
+
     public function getUsername()
     {
         return (string) $this->email;

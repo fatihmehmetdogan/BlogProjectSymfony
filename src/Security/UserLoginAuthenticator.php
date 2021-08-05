@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Security;
@@ -42,6 +43,7 @@ class UserLoginAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function supports(Request $request)
     {
+        return true;
         if ($request->isMethod('POST')) {
             if ($request->request->get('register') == "member") return true;
             if($request->request->get('login') == "member") return true;
@@ -52,6 +54,7 @@ class UserLoginAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function getCredentials(Request $request)
     {
+
         $credentials = [
             'email' => $request->request->get('email'),
             'password' => $request->request->get('password'),
@@ -77,8 +80,6 @@ class UserLoginAuthenticator extends AbstractFormLoginAuthenticator implements P
         if (!$user) {
 
             throw new UsernameNotFoundException('Email could not be found.');
-            dd("o telefonu götüne sokarım hüso2");
-
         }
 
         return $user;
@@ -100,6 +101,10 @@ class UserLoginAuthenticator extends AbstractFormLoginAuthenticator implements P
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         return new RedirectResponse('/');
+    }
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    {
+        return null;
     }
 
     protected function getLoginUrl()

@@ -4,6 +4,7 @@
 namespace App\Service;
 
 use App\Entity\Blog;
+use App\Entity\Member;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
@@ -61,6 +62,23 @@ class AuthService
       if (!$this->passwordEncoder->isPasswordValid($user, $validatePassword)){
           echo 'hatalı parola'; exit();
       }
+    }
+
+    public function memberLogin($validateEmail, $validatePassword){
+//        var_dump($registerInfo);exit();
+
+        $adminUser =  $this->em->getRepository(Member::class);
+        /** @var User $user */
+        $user = $adminUser->findOneBy(['email' => $validateEmail]);
+
+        if (!$user){
+            echo 'hatalı'; exit();
+        }
+
+
+        if (!$this->passwordEncoder->isPasswordValid($user, $validatePassword)){
+            echo 'hatalı parola'; exit();
+        }
     }
 
 

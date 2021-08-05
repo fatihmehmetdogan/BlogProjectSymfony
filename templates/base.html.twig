@@ -23,11 +23,25 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <!-- Button trigger modal -->
 {#                <li><a href="security/login.html.twig">LOGIN</a></li>#}
-{#                <a class="btn btn-primary" href="{{ path('memberLoginView') }}">Login </a>#}
+                {% if app.user %}
+                    <div class="mb-3">
+                        You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+                {% endif %}
+                <a class="btn btn-primary" href="{{ path('memberLoginView') }}">Login </a>
 
-                {{ render(controller("App\\Controller\\UserSecurityController::memberLoginViewAction")) }}
+                {#                {% if (app.user) and instanceOf(app.user, "App\\Entity\\Member") %}#}
+                {#                    <div class="mb-3">#}
+                {#                        You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>#}
+                {#                    </div>#}
+                {#                {% endif %}#}
+
+
+                {#                {{ render(controller("App\\Controller\\UserSecurityController::login")) }}#}
                 <!-- Modal -->
-                {{ render(controller("App\\Controller\\RegistrationController::register")) }}
+{#                {{ render(controller("App\\Controller\\RegistrationController::register")) }}#}
+                <a class="btn btn-primary" href="{{ path('storefront_register') }}">SignUp </a>
+
             </ul>
         </div>
     </div>
